@@ -5,6 +5,8 @@ class_name GameManager extends Node2D
 @onready var actual_drink_order_timer = $DrinkOrderTimerBar/DrinkOrderTimer
 @onready var health_bar = $HealthBar
 
+@onready var background = $Background
+
 @export var rum_ingredient : PackedScene
 @export var wine_ingredient : PackedScene
 @export var soda_ingredient : PackedScene
@@ -19,7 +21,12 @@ class_name GameManager extends Node2D
 var recipe_start_position = Vector2(430, 55)
 const INGREDIENT_WIDTH = 70
 
+const tip_percentage = 0.2
+
 var recipe : Array = []
+var recipe_complexity : int
+
+var earnings : float = 0.0
 
 func restart_drink_timer_with_increased_difficulty():
 	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time - 0.5)
@@ -35,12 +42,21 @@ func _on_mix_attempted(successful: bool):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	coin_counter_label.text = "$0.00"
+	background.play("default")
+	coin_counter_label.text = "$" + str(round(earnings * 100) / 100.0)
 	order_new_drink()
+
+func earn_money():
+	var tip_ratio = tip_percentage * (actual_drink_order_timer.time_left / actual_drink_order_timer.wait_time)
+	var payout = (recipe_complexity * 0.5)
+	payout *= (1.0 + tip_ratio)
+	earnings += payout
+	coin_counter_label.text = "$" + str(round(earnings * 100) / 100.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if recipe.size() <= 0:
+		earn_money()
 		order_new_drink()
 		restart_drink_timer_with_increased_difficulty()
 
@@ -53,6 +69,7 @@ func _input(event):
 func order_new_drink():
 	recipe = []
 	var recipe_length = randi_range(2, 5)
+	recipe_complexity = recipe_length
 	for i in range(recipe_length):
 		var ingredient_instance = ingredients[randi_range(0, ingredients.size() - 1)].instantiate()
 		ingredient_instance.position = recipe_start_position

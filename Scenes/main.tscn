@@ -328,7 +328,7 @@ unsuccess_icon = ExtResource("8_0l8er")
 [node name="Background" type="AnimatedSprite2D" parent="."]
 position = Vector2(320, 320)
 sprite_frames = SubResource("SpriteFrames_t1cim")
-frame_progress = 0.129267
+frame_progress = 0.640923
 
 [node name="UI" type="Sprite2D" parent="."]
 position = Vector2(322, 336)
@@ -338,7 +338,7 @@ texture = ExtResource("2_p4i3g")
 position = Vector2(188, -314)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_w625b")
-frame_progress = 0.589526
+frame_progress = 0.40929
 
 [node name="Label" type="Label" parent="UI"]
 offset_left = 208.0
