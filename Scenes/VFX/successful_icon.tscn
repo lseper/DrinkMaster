@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxasjr2tbbp8"]
+
+[ext_resource type="Texture2D" uid="uid://b4a2d6sg6hcxp" path="res://Assets/alcohol.png" id="1_nwm7v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjyit"]
+atlas = ExtResource("1_nwm7v")
+region = Rect2(240, 159, 6, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n168a"]
+atlas = SubResource("AtlasTexture_cjyit")
+
+[node name="SuccessfulIcon" type="Sprite2D"]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_n168a")

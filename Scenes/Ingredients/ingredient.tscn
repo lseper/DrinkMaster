@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://8xcthqn8pbkc"]
+
+[ext_resource type="Script" path="res://Scripts/Ingredient.gd" id="1_o1rwg"]
+[ext_resource type="Script" path="res://Scripts/ExitBehaviour.gd" id="3_87s00"]
+
+[node name="Ingredient" type="Sprite2D"]
+script = ExtResource("1_o1rwg")
+
+[node name="ExitBehaviour" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("3_87s00")
+root = NodePath("..")
+
+[node name="QueueFreeTimer" type="Timer" parent="ExitBehaviour"]
+wait_time = 2.5
+one_shot = true
+
+[connection signal="timeout" from="ExitBehaviour/QueueFreeTimer" to="ExitBehaviour" method="_on_queue_free_timer_timeout"]
