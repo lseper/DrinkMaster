@@ -30,11 +30,21 @@ var recipe_complexity : int
 
 var earnings : float = 0.0
 
+# each second that passes, the timer is decreased (upon successful mix) by 0.02 more
+const DIFFICULTY_INCREASE_PER_SECOND := 0.02
+
+var start_time : int
+
+func get_difficulty_factor():
+	var difficulty_factor = ((Time.get_ticks_msec() - start_time) / 1000.0) * DIFFICULTY_INCREASE_PER_SECOND
+	print(difficulty_factor)
+	return difficulty_factor
+
 func restart_drink_timer_with_increased_difficulty():
-	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time - 0.5)
+	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time - get_difficulty_factor())
 	
 func restart_drink_timer_with_decreased_difficulty():
-	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time + 1.0)
+	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time + (2.0 * get_difficulty_factor()))
 
 func _on_mix_attempted(successful: bool):
 	if successful:
@@ -48,6 +58,7 @@ func _ready():
 	coin_counter_label.text = "$" + str(round(earnings * 100) / 100.0)
 	pause_panel.hide()
 	order_new_drink()
+	start_time = Time.get_ticks_msec()
 
 func earn_money():
 	var tip_ratio = tip_percentage * (actual_drink_order_timer.time_left / actual_drink_order_timer.wait_time)
