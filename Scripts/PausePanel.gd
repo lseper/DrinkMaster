@@ -4,6 +4,8 @@ class_name PausePanel extends Sprite2D
 @onready var credits_panel = $CreditsPanel
 @onready var exit_warning_panel = $ExitWarningPanel
 
+signal game_unpaused()
+
 func return_to_main_panel():
 	hide_panels()
 	main_panel.show()
@@ -14,6 +16,7 @@ func hide_panels():
 	exit_warning_panel.hide()
 
 func resume():
+	game_unpaused.emit()
 	hide()
 	get_tree().paused = false
 

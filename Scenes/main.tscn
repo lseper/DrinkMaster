@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://dpsqnfr0bm4yn"]
+[gd_scene load_steps=89 format=3 uid="uid://dpsqnfr0bm4yn"]
 
 [ext_resource type="Texture2D" uid="uid://crkxgvvetq8d5" path="res://Assets/bar-Sheet.png" id="1_6fqh6"]
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_v22jk"]
@@ -22,6 +22,10 @@
 [ext_resource type="Script" path="res://Scripts/PausePanel.gd" id="19_in011"]
 [ext_resource type="Texture2D" uid="uid://8a7rrby85c1c" path="res://Assets/new_compressed_texture_2d.tres" id="20_26aid"]
 [ext_resource type="Texture2D" uid="uid://1nbi2l16alg1" path="res://Assets/ui_atlas.png" id="21_1ky41"]
+[ext_resource type="AudioStream" uid="uid://u1uqnwj3jh01" path="res://Assets/tavern.wav" id="23_0ejds"]
+[ext_resource type="Script" path="res://Scripts/MusicManager.gd" id="23_4unur"]
+[ext_resource type="AudioStream" uid="uid://k4h72s5j6t5l" path="res://Assets/withvigor.wav" id="25_8nub5"]
+[ext_resource type="AudioStream" uid="uid://dsbmbbtwiahmn" path="res://Assets/death.wav" id="26_gpnn3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqlb7"]
 atlas = ExtResource("1_6fqh6")
@@ -535,12 +539,31 @@ texture_hover = SubResource("AtlasTexture_1ipl7")
 position = Vector2(0, -82)
 texture = SubResource("AtlasTexture_uhb5c")
 
+[node name="MusicManager" type="Node2D" parent="."]
+process_mode = 3
+script = ExtResource("23_4unur")
+
+[node name="IntroMusic" type="AudioStreamPlayer2D" parent="MusicManager"]
+stream = ExtResource("23_0ejds")
+autoplay = true
+
+[node name="GameLoopMusic" type="AudioStreamPlayer2D" parent="MusicManager"]
+stream = ExtResource("25_8nub5")
+autoplay = true
+
+[node name="DeathMusic" type="AudioStreamPlayer2D" parent="MusicManager"]
+stream = ExtResource("26_gpnn3")
+autoplay = true
+
+[connection signal="game_paused" from="." to="MusicManager" method="_on_game_manager_game_paused"]
 [connection signal="health_depleted" from="HealthBar" to="." method="_on_health_bar_health_depleted"]
 [connection signal="health_depleted" from="HealthBar" to="DrinkOrderTimerBar" method="_on_health_bar_health_depleted"]
+[connection signal="health_depleted" from="HealthBar" to="MusicManager" method="_on_health_bar_health_depleted"]
 [connection signal="timeout" from="HealthBar/BlinkTimer" to="HealthBar" method="_on_blink_timer_timeout"]
 [connection signal="timeout" from="HealthBar/BlinkTimer" to="HealthBar/BlinkTimer" method="_on_timeout"]
 [connection signal="timeout" from="DrinkOrderTimerBar/DrinkOrderTimer" to="." method="_on_drink_order_timer_timeout"]
 [connection signal="timeout" from="DrinkOrderTimerBar/DrinkOrderTimer" to="HealthBar" method="_on_drink_order_timer_timeout"]
+[connection signal="game_unpaused" from="PausePanel" to="MusicManager" method="_on_pause_panel_game_unpaused"]
 [connection signal="pressed" from="PausePanel/CreditsPanel/CreditsBackButton" to="PausePanel" method="_on_credits_back_button_pressed"]
 [connection signal="pressed" from="PausePanel/MainPanel/BackButton" to="PausePanel" method="_on_back_button_pressed"]
 [connection signal="pressed" from="PausePanel/MainPanel/ExitButton" to="PausePanel" method="_on_exit_button_pressed"]

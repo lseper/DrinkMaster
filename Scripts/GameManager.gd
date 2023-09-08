@@ -35,6 +35,8 @@ const DIFFICULTY_INCREASE_PER_SECOND := 0.02
 
 var start_time : int
 
+signal game_paused()
+
 func get_difficulty_factor():
 	var difficulty_factor = ((Time.get_ticks_msec() - start_time) / 1000.0) * DIFFICULTY_INCREASE_PER_SECOND
 	print(difficulty_factor)
@@ -75,6 +77,7 @@ func _process(delta):
 		restart_drink_timer_with_increased_difficulty()
 
 func pause_game():
+	game_paused.emit()
 	get_tree().paused = true
 	pause_panel.show()
 
