@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://dpsqnfr0bm4yn"]
+[gd_scene load_steps=82 format=3 uid="uid://dpsqnfr0bm4yn"]
 
 [ext_resource type="Texture2D" uid="uid://crkxgvvetq8d5" path="res://Assets/bar-Sheet.png" id="1_6fqh6"]
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_v22jk"]
@@ -19,7 +19,6 @@
 [ext_resource type="Script" path="res://Scripts/DrinkOrderTimerBar.gd" id="17_g0vb7"]
 [ext_resource type="Texture2D" uid="uid://dnbij7s18b2hi" path="res://Assets/pause-panel.png" id="18_0bxap"]
 [ext_resource type="Texture2D" uid="uid://dxl0o6iycgeo" path="res://Assets/credits.png" id="19_6er6h"]
-[ext_resource type="Script" path="res://Scripts/PausePanel.gd" id="19_in011"]
 [ext_resource type="Texture2D" uid="uid://8a7rrby85c1c" path="res://Assets/new_compressed_texture_2d.tres" id="20_26aid"]
 [ext_resource type="Texture2D" uid="uid://1nbi2l16alg1" path="res://Assets/ui_atlas.png" id="21_1ky41"]
 
@@ -326,7 +325,7 @@ region = Rect2(39, 489, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yu06u"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(126, 488, 30, 32)
+region = Rect2(126, 490, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4cd6f"]
 atlas = ExtResource("21_1ky41")
@@ -338,7 +337,7 @@ region = Rect2(5, 229, 139, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64j87"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(151, 230, 139, 67)
+region = Rect2(151, 231, 139, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pwglc"]
 atlas = ExtResource("21_1ky41")
@@ -348,21 +347,13 @@ region = Rect2(151, 232, 139, 65)
 atlas = ExtResource("21_1ky41")
 region = Rect2(5, 311, 139, 65)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8bn32"]
-atlas = ExtResource("21_1ky41")
-region = Rect2(151, 313, 139, 66)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2jiuh"]
-atlas = ExtResource("21_1ky41")
-region = Rect2(151, 315, 139, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_2x2fy"]
 atlas = ExtResource("21_1ky41")
 region = Rect2(5, 390, 139, 65)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sk14b"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(151, 391, 139, 67)
+region = Rect2(151, 393, 139, 65)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g8sgf"]
 atlas = ExtResource("21_1ky41")
@@ -374,7 +365,7 @@ region = Rect2(6, 84, 139, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f6chb"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(148, 84, 139, 66)
+region = Rect2(148, 86, 139, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ven8m"]
 atlas = ExtResource("21_1ky41")
@@ -386,7 +377,7 @@ region = Rect2(6, 157, 139, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0goip"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(150, 155, 139, 66)
+region = Rect2(150, 157, 139, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ipl7"]
 atlas = ExtResource("21_1ky41")
@@ -410,7 +401,7 @@ unsuccess_icon = ExtResource("8_0l8er")
 [node name="Background" type="AnimatedSprite2D" parent="."]
 position = Vector2(320, 320)
 sprite_frames = SubResource("SpriteFrames_t1cim")
-frame_progress = 0.60152
+frame_progress = 0.42428
 
 [node name="UI" type="Sprite2D" parent="."]
 position = Vector2(322, 336)
@@ -420,7 +411,7 @@ texture = ExtResource("2_p4i3g")
 position = Vector2(188, -314)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_w625b")
-frame_progress = 0.953125
+frame_progress = 0.667146
 
 [node name="Label" type="Label" parent="UI"]
 offset_left = 208.0
@@ -458,21 +449,18 @@ script = ExtResource("17_g0vb7")
 [node name="DrinkOrderTimer" type="Timer" parent="DrinkOrderTimerBar"]
 wait_time = 3.0
 
-[node name="PausePanel" type="Sprite2D" parent="."]
-process_mode = 2
-visible = false
+[node name="Pause-panel" type="Sprite2D" parent="."]
 position = Vector2(322, 264)
 texture = ExtResource("18_0bxap")
-script = ExtResource("19_in011")
 
-[node name="CreditsPanel" type="Node2D" parent="PausePanel"]
+[node name="CreditsPanel" type="Node2D" parent="Pause-panel"]
 visible = false
 
-[node name="Credits" type="Sprite2D" parent="PausePanel/CreditsPanel"]
+[node name="Credits" type="Sprite2D" parent="Pause-panel/CreditsPanel"]
 position = Vector2(0, -27)
 texture = ExtResource("19_6er6h")
 
-[node name="CreditsBackButton" type="TextureButton" parent="PausePanel/CreditsPanel"]
+[node name="CreditsBackButton" type="TextureButton" parent="Pause-panel/CreditsPanel"]
 offset_left = -26.0
 offset_top = 124.0
 offset_right = 4.0
@@ -481,9 +469,10 @@ texture_normal = SubResource("AtlasTexture_321me")
 texture_pressed = SubResource("AtlasTexture_yu06u")
 texture_hover = SubResource("AtlasTexture_4cd6f")
 
-[node name="MainPanel" type="Node2D" parent="PausePanel"]
+[node name="MainPanel" type="Node2D" parent="Pause-panel"]
+visible = false
 
-[node name="BackButton" type="TextureButton" parent="PausePanel/MainPanel"]
+[node name="BackButton" type="TextureButton" parent="Pause-panel/MainPanel"]
 offset_left = -69.0
 offset_top = -118.0
 offset_right = 70.0
@@ -492,16 +481,14 @@ texture_normal = SubResource("AtlasTexture_q7eqi")
 texture_pressed = SubResource("AtlasTexture_64j87")
 texture_hover = SubResource("AtlasTexture_pwglc")
 
-[node name="ExitButton" type="TextureButton" parent="PausePanel/MainPanel"]
+[node name="ExitButton" type="TextureButton" parent="Pause-panel/MainPanel"]
 offset_left = -69.0
 offset_top = 47.0
 offset_right = 70.0
 offset_bottom = 112.0
 texture_normal = SubResource("AtlasTexture_pqbqa")
-texture_pressed = SubResource("AtlasTexture_8bn32")
-texture_hover = SubResource("AtlasTexture_2jiuh")
 
-[node name="CreditsButton" type="TextureButton" parent="PausePanel/MainPanel"]
+[node name="CreditsButton" type="TextureButton" parent="Pause-panel/MainPanel"]
 offset_left = -69.0
 offset_top = -36.0
 offset_right = 70.0
@@ -510,10 +497,9 @@ texture_normal = SubResource("AtlasTexture_2x2fy")
 texture_pressed = SubResource("AtlasTexture_sk14b")
 texture_hover = SubResource("AtlasTexture_g8sgf")
 
-[node name="ExitWarningPanel" type="Node2D" parent="PausePanel"]
-visible = false
+[node name="ExitWarningPanel" type="Node2D" parent="Pause-panel"]
 
-[node name="NoButton" type="TextureButton" parent="PausePanel/ExitWarningPanel"]
+[node name="NoButton" type="TextureButton" parent="Pause-panel/ExitWarningPanel"]
 offset_left = -69.0
 offset_top = -23.0
 offset_right = 70.0
@@ -522,7 +508,7 @@ texture_normal = SubResource("AtlasTexture_epdl5")
 texture_pressed = SubResource("AtlasTexture_f6chb")
 texture_hover = SubResource("AtlasTexture_ven8m")
 
-[node name="YesButton" type="TextureButton" parent="PausePanel/ExitWarningPanel"]
+[node name="YesButton" type="TextureButton" parent="Pause-panel/ExitWarningPanel"]
 offset_left = -70.0
 offset_top = 58.0
 offset_right = 69.0
@@ -531,7 +517,7 @@ texture_normal = SubResource("AtlasTexture_32pt0")
 texture_pressed = SubResource("AtlasTexture_0goip")
 texture_hover = SubResource("AtlasTexture_1ipl7")
 
-[node name="ExitWarning" type="Sprite2D" parent="PausePanel/ExitWarningPanel"]
+[node name="ExitWarning" type="Sprite2D" parent="Pause-panel/ExitWarningPanel"]
 position = Vector2(0, -82)
 texture = SubResource("AtlasTexture_uhb5c")
 
@@ -541,9 +527,3 @@ texture = SubResource("AtlasTexture_uhb5c")
 [connection signal="timeout" from="HealthBar/BlinkTimer" to="HealthBar/BlinkTimer" method="_on_timeout"]
 [connection signal="timeout" from="DrinkOrderTimerBar/DrinkOrderTimer" to="." method="_on_drink_order_timer_timeout"]
 [connection signal="timeout" from="DrinkOrderTimerBar/DrinkOrderTimer" to="HealthBar" method="_on_drink_order_timer_timeout"]
-[connection signal="pressed" from="PausePanel/CreditsPanel/CreditsBackButton" to="PausePanel" method="_on_credits_back_button_pressed"]
-[connection signal="pressed" from="PausePanel/MainPanel/BackButton" to="PausePanel" method="_on_back_button_pressed"]
-[connection signal="pressed" from="PausePanel/MainPanel/ExitButton" to="PausePanel" method="_on_exit_button_pressed"]
-[connection signal="pressed" from="PausePanel/MainPanel/CreditsButton" to="PausePanel" method="_on_credits_button_pressed"]
-[connection signal="pressed" from="PausePanel/ExitWarningPanel/NoButton" to="PausePanel" method="_on_no_button_pressed"]
-[connection signal="pressed" from="PausePanel/ExitWarningPanel/YesButton" to="PausePanel" method="_on_yes_button_pressed"]

@@ -12,6 +12,8 @@ enum IngredientType {
 	ICE
 }
 
+var processable_inputs = [KEY_A, KEY_W, KEY_D, KEY_S, KEY_UP, KEY_LEFT, KEY_RIGHT, KEY_DOWN, KEY_SPACE]
+
 var ingredient_to_key_press_map := {
 	IngredientType.RUM : "ui_left",
 	IngredientType.WINE : "ui_down",
@@ -32,8 +34,15 @@ func _ready():
 	
 func _get_mix_key():
 	return ingredient_to_key_press_map.get(ingredient_type)
+
+func _is_processable(event):
+	if event is InputEventKey:
+		return processable_inputs.has(event.keycode)
+	return false
 	
 func attempt_mix(event):
+	if not _is_processable(event):
+		return
 	if event.is_action_pressed(_get_mix_key()):
 		mix_correctly()
 	else:

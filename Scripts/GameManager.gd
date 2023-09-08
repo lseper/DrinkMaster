@@ -7,6 +7,8 @@ class_name GameManager extends Node2D
 
 @onready var background = $Background
 
+@onready var pause_panel = $PausePanel
+
 @export var rum_ingredient : PackedScene
 @export var wine_ingredient : PackedScene
 @export var soda_ingredient : PackedScene
@@ -44,6 +46,7 @@ func _on_mix_attempted(successful: bool):
 func _ready():
 	background.play("default")
 	coin_counter_label.text = "$" + str(round(earnings * 100) / 100.0)
+	pause_panel.hide()
 	order_new_drink()
 
 func earn_money():
@@ -60,10 +63,16 @@ func _process(delta):
 		order_new_drink()
 		restart_drink_timer_with_increased_difficulty()
 
+func pause_game():
+	get_tree().paused = true
+	pause_panel.show()
+
 func _input(event):
 	if recipe.size() <= 0:
 		return
-	if event is InputEventKey and event.is_pressed():
+	if event.is_action_pressed("pause") and not get_tree().paused:
+		pause_game()
+	elif event is InputEventKey and event.is_pressed():
 		recipe[0].attempt_mix(event)
 
 func order_new_drink():
