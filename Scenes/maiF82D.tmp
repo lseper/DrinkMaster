@@ -566,7 +566,6 @@ position = Vector2(0, -82)
 texture = SubResource("AtlasTexture_uhb5c")
 
 [node name="HelpPanel" type="Node2D" parent="PausePanel"]
-visible = false
 
 [node name="HelpBackButton" type="TextureButton" parent="PausePanel/HelpPanel"]
 offset_left = -68.0

@@ -13,6 +13,8 @@ var health_bar_visible := true
 
 var hearts = []
 
+var vulnerable := true
+
 signal health_depleted
 
 func _on_heart_depleted():
@@ -26,10 +28,13 @@ func set_heart_visibility(full: bool):
 			heart.hide_full_hearts()
 
 func damage():
+	if not vulnerable:
+		return
 	blink_timer.start()
 	health -= 1
 	if hearts.size() > 0:
 		hearts[hearts.size() - 1].damage()
+		vulnerable = false
 	if health == 0:
 		health_depleted.emit()
 
@@ -51,6 +56,9 @@ func _on_blink_timer_timeout():
 	health_bar_visible = not health_bar_visible
 	set_heart_visibility(health_bar_visible)
 
-
 func _on_drink_order_timer_timeout():
 	damage()
+
+
+func _on_blink_timer_is_now_vulnerable():
+	vulnerable = true

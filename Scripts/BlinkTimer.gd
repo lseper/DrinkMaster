@@ -6,6 +6,8 @@ var total_blinks = blink_count * 2
 
 var blinks_complete = 0
 
+signal is_now_vulnerable()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -20,3 +22,4 @@ func _on_timeout():
 	if blinks_complete >= total_blinks:
 		blinks_complete = 0
 		self.stop()
+		is_now_vulnerable.emit()

@@ -1,0 +1,149 @@
+[gd_scene load_steps=23 format=3 uid="uid://tcxerrhp3v16"]
+
+[ext_resource type="Texture2D" uid="uid://6ggce2bax56s" path="res://Assets/start-menu-bg.png" id="1_4ll5n"]
+[ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_44klu"]
+[ext_resource type="Texture2D" uid="uid://1nbi2l16alg1" path="res://Assets/ui_atlas.png" id="2_dt2m6"]
+[ext_resource type="Script" path="res://Scripts/ExitButton.gd" id="3_8h6i2"]
+[ext_resource type="FontFile" uid="uid://fmdip0jsm4s2" path="res://Assets/DungeonFont.ttf" id="3_euew3"]
+[ext_resource type="Script" path="res://Scripts/StartButton.gd" id="4_d81rc"]
+[ext_resource type="Script" path="res://Scripts/LeaderboardButton.gd" id="5_7y60s"]
+[ext_resource type="Texture2D" uid="uid://bs1ubd1gj8boj" path="res://Assets/leaderboard-panel.png" id="8_qv2sa"]
+[ext_resource type="Script" path="res://Scripts/LeaderboardPanel.gd" id="9_qol2n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kptlx"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(5, 530, 139, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cdd4"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(151, 529, 139, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kx7ed"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(151, 533, 139, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u66q8"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(304, 524, 139, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddqag"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(450, 524, 139, 69)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7igkh"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(450, 529, 139, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0wtr"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(319, 270, 248, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmesx"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(319, 340, 248, 69)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4htlg"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(319, 345, 248, 65)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wwxww"]
+font = ExtResource("3_euew3")
+font_size = 64
+font_color = Color(0.709804, 0.792157, 0.603922, 1)
+outline_size = 16
+outline_color = Color(0.054902, 0.176471, 0.172549, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ps3p7"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(5, 229, 139, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywhqw"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(151, 230, 139, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epb48"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(151, 232, 139, 65)
+
+[node name="StartMenu" type="Sprite2D"]
+position = Vector2(320, 320)
+texture = ExtResource("1_4ll5n")
+script = ExtResource("2_44klu")
+
+[node name="ExitButton" type="TextureButton" parent="."]
+offset_left = 105.0
+offset_top = -147.0
+offset_right = 244.0
+offset_bottom = -82.0
+texture_normal = SubResource("AtlasTexture_kptlx")
+texture_pressed = SubResource("AtlasTexture_3cdd4")
+texture_hover = SubResource("AtlasTexture_kx7ed")
+script = ExtResource("3_8h6i2")
+
+[node name="StartButton" type="TextureButton" parent="."]
+offset_left = 104.0
+offset_top = -227.0
+offset_right = 243.0
+offset_bottom = -162.0
+texture_normal = SubResource("AtlasTexture_u66q8")
+texture_pressed = SubResource("AtlasTexture_ddqag")
+texture_hover = SubResource("AtlasTexture_7igkh")
+script = ExtResource("4_d81rc")
+
+[node name="LeaderboardButton" type="TextureButton" parent="." node_paths=PackedStringArray("leaderboard_panel")]
+offset_left = 54.0
+offset_top = -307.0
+offset_right = 302.0
+offset_bottom = -242.0
+texture_normal = SubResource("AtlasTexture_o0wtr")
+texture_pressed = SubResource("AtlasTexture_gmesx")
+texture_hover = SubResource("AtlasTexture_4htlg")
+script = ExtResource("5_7y60s")
+leaderboard_panel = NodePath("../LeaderboardPanel")
+
+[node name="Drink" type="Label" parent="."]
+offset_left = -319.0
+offset_top = -306.0
+offset_right = -251.0
+offset_bottom = 34.0
+text = "D
+R
+I
+N
+K"
+label_settings = SubResource("LabelSettings_wwxww")
+horizontal_alignment = 1
+
+[node name="Master" type="Label" parent="."]
+offset_left = -252.0
+offset_top = -305.0
+offset_right = -179.0
+offset_bottom = 103.0
+text = "M
+A
+S
+T
+E
+R"
+label_settings = SubResource("LabelSettings_wwxww")
+horizontal_alignment = 1
+
+[node name="LeaderboardPanel" type="Sprite2D" parent="."]
+process_mode = 4
+visible = false
+texture = ExtResource("8_qv2sa")
+script = ExtResource("9_qol2n")
+
+[node name="BackButton" type="TextureButton" parent="LeaderboardPanel"]
+offset_left = -73.0
+offset_top = -234.0
+offset_right = 66.0
+offset_bottom = -170.0
+texture_normal = SubResource("AtlasTexture_ps3p7")
+texture_pressed = SubResource("AtlasTexture_ywhqw")
+texture_hover = SubResource("AtlasTexture_epb48")
+
+[connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_pressed"]
+[connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]
+[connection signal="pressed" from="LeaderboardButton" to="LeaderboardButton" method="_on_pressed"]
+[connection signal="pressed" from="LeaderboardPanel/BackButton" to="LeaderboardPanel" method="_on_back_button_pressed"]
