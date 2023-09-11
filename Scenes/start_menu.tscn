@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://tcxerrhp3v16"]
+[gd_scene load_steps=24 format=3 uid="uid://tcxerrhp3v16"]
 
 [ext_resource type="Texture2D" uid="uid://6ggce2bax56s" path="res://Assets/start-menu-bg.png" id="1_4ll5n"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_44klu"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/LeaderboardButton.gd" id="5_7y60s"]
 [ext_resource type="Texture2D" uid="uid://bs1ubd1gj8boj" path="res://Assets/leaderboard-panel.png" id="8_qv2sa"]
 [ext_resource type="Script" path="res://Scripts/LeaderboardPanel.gd" id="9_qol2n"]
+[ext_resource type="AudioStream" uid="uid://u1uqnwj3jh01" path="res://Assets/tavern.wav" id="10_wnl8n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kptlx"]
 atlas = ExtResource("2_dt2m6")
@@ -142,6 +143,10 @@ offset_bottom = -170.0
 texture_normal = SubResource("AtlasTexture_ps3p7")
 texture_pressed = SubResource("AtlasTexture_ywhqw")
 texture_hover = SubResource("AtlasTexture_epb48")
+
+[node name="IntroMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_wnl8n")
+autoplay = true
 
 [connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_pressed"]
 [connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]

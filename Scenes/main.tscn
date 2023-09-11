@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=3 uid="uid://dpsqnfr0bm4yn"]
+[gd_scene load_steps=105 format=3 uid="uid://dpsqnfr0bm4yn"]
 
 [ext_resource type="Texture2D" uid="uid://crkxgvvetq8d5" path="res://Assets/bar-Sheet.png" id="1_6fqh6"]
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_v22jk"]
@@ -20,12 +20,20 @@
 [ext_resource type="Texture2D" uid="uid://dnbij7s18b2hi" path="res://Assets/pause-panel.png" id="18_0bxap"]
 [ext_resource type="Texture2D" uid="uid://dxl0o6iycgeo" path="res://Assets/credits.png" id="19_6er6h"]
 [ext_resource type="Script" path="res://Scripts/PausePanel.gd" id="19_in011"]
-[ext_resource type="Texture2D" uid="uid://8a7rrby85c1c" path="res://Assets/new_compressed_texture_2d.tres" id="20_26aid"]
 [ext_resource type="Texture2D" uid="uid://1nbi2l16alg1" path="res://Assets/ui_atlas.png" id="21_1ky41"]
 [ext_resource type="AudioStream" uid="uid://u1uqnwj3jh01" path="res://Assets/tavern.wav" id="23_0ejds"]
 [ext_resource type="Script" path="res://Scripts/MusicManager.gd" id="23_4unur"]
+[ext_resource type="Script" path="res://Scripts/ResultsPanel.gd" id="23_eiv2q"]
+[ext_resource type="Script" path="res://Scripts/SelfRemovingButton.gd" id="23_jgva4"]
+[ext_resource type="Texture2D" uid="uid://ctcg2gchnl23f" path="res://Assets/results panel.png" id="23_q2nsi"]
+[ext_resource type="LabelSettings" uid="uid://b1ntvakjb4hvc" path="res://Scenes/new_label_settings.tres" id="24_bjhe5"]
 [ext_resource type="AudioStream" uid="uid://k4h72s5j6t5l" path="res://Assets/withvigor.wav" id="25_8nub5"]
+[ext_resource type="LabelSettings" uid="uid://bgktmlj3i4vlu" path="res://Scenes/grand_total.tres" id="25_wkxnd"]
 [ext_resource type="AudioStream" uid="uid://dsbmbbtwiahmn" path="res://Assets/death.wav" id="26_gpnn3"]
+[ext_resource type="AudioStream" uid="uid://jgv1pdye4p2l" path="res://Assets/IngredientSuccess.wav" id="27_c1h31"]
+[ext_resource type="AudioStream" uid="uid://bfx7jjjgcm3eg" path="res://Assets/IngredientFailure.wav" id="28_1sm48"]
+[ext_resource type="Script" path="res://Scripts/MoneySpawnBar.gd" id="29_v8bku"]
+[ext_resource type="PackedScene" uid="uid://b5triewgd2bpp" path="res://Scenes/money_earned.tscn" id="30_3cffc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqlb7"]
 atlas = ExtResource("1_6fqh6")
@@ -325,16 +333,16 @@ atlas = ExtResource("16_5g1k6")
 region = Rect2(13, 21, 614, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_321me"]
-atlas = ExtResource("20_26aid")
-region = Rect2(39, 489, 30, 30)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yu06u"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(126, 488, 30, 32)
+region = Rect2(417, 54, 30, 30)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4cd6f"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs60h"]
 atlas = ExtResource("21_1ky41")
-region = Rect2(126, 490, 30, 30)
+region = Rect2(504, 51, 30, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4m88b"]
+atlas = ExtResource("21_1ky41")
+region = Rect2(504, 55, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q7eqi"]
 atlas = ExtResource("21_1ky41")
@@ -417,6 +425,22 @@ font = ExtResource("4_dgnuk")
 font_size = 32
 font_color = Color(0.709804, 0.792157, 0.603922, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_48lya"]
+atlas = ExtResource("21_1ky41")
+region = Rect2(304, 448, 139, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6gsf"]
+atlas = ExtResource("21_1ky41")
+region = Rect2(450, 448, 139, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i44hf"]
+atlas = ExtResource("21_1ky41")
+region = Rect2(450, 453, 139, 65)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_kqc14"]
+a = Vector2(600, 10)
+b = Vector2(40, 10)
+
 [node name="GameManager" type="Node2D"]
 process_mode = 1
 script = ExtResource("1_v22jk")
@@ -498,8 +522,8 @@ offset_top = 124.0
 offset_right = 4.0
 offset_bottom = 154.0
 texture_normal = SubResource("AtlasTexture_321me")
-texture_pressed = SubResource("AtlasTexture_yu06u")
-texture_hover = SubResource("AtlasTexture_4cd6f")
+texture_pressed = SubResource("AtlasTexture_qs60h")
+texture_hover = SubResource("AtlasTexture_4m88b")
 
 [node name="MainPanel" type="Node2D" parent="PausePanel"]
 visible = false
@@ -569,6 +593,7 @@ texture = SubResource("AtlasTexture_uhb5c")
 visible = false
 
 [node name="HelpBackButton" type="TextureButton" parent="PausePanel/HelpPanel"]
+visible = false
 offset_left = -68.0
 offset_top = 95.0
 offset_right = 71.0
@@ -582,9 +607,113 @@ offset_left = -151.0
 offset_top = -148.0
 offset_right = 154.0
 offset_bottom = 82.0
-text = "Hello! This is the help &
-tutorial text. TODO:"
+text = "Welcome to the job, kid.
+Add ingredients to your
+drinks using the arrow
+keys. The faster you can
+work, the more tips you'll
+get. Good luck!"
 label_settings = SubResource("LabelSettings_5gtom")
+
+[node name="StartButton" type="TextureButton" parent="PausePanel/HelpPanel"]
+offset_left = -68.0
+offset_top = 95.0
+offset_right = 71.0
+offset_bottom = 160.0
+texture_normal = SubResource("AtlasTexture_48lya")
+texture_pressed = SubResource("AtlasTexture_k6gsf")
+texture_hover = SubResource("AtlasTexture_i44hf")
+script = ExtResource("23_jgva4")
+
+[node name="ResultsPanel" type="Node2D" parent="PausePanel"]
+visible = false
+script = ExtResource("23_eiv2q")
+
+[node name="Panes" type="Sprite2D" parent="PausePanel/ResultsPanel"]
+texture = ExtResource("23_q2nsi")
+
+[node name="TotalsLabels" type="Node2D" parent="PausePanel/ResultsPanel"]
+position = Vector2(-317, -263)
+
+[node name="Drinks" type="Label" parent="PausePanel/ResultsPanel/TotalsLabels"]
+offset_left = 202.0
+offset_top = 177.0
+offset_right = 283.0
+offset_bottom = 213.0
+text = "Drinks"
+label_settings = ExtResource("24_bjhe5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Tips" type="Label" parent="PausePanel/ResultsPanel/TotalsLabels"]
+offset_left = 217.0
+offset_top = 229.0
+offset_right = 266.0
+offset_bottom = 265.0
+text = "Tips"
+label_settings = ExtResource("24_bjhe5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Bonus" type="Label" parent="PausePanel/ResultsPanel/TotalsLabels"]
+offset_left = 207.0
+offset_top = 281.0
+offset_right = 279.0
+offset_bottom = 317.0
+text = "Bonus"
+label_settings = ExtResource("24_bjhe5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Totals" type="Node2D" parent="PausePanel/ResultsPanel"]
+position = Vector2(-317, -263)
+
+[node name="Drinks" type="Label" parent="PausePanel/ResultsPanel/Totals"]
+offset_left = 355.0
+offset_top = 177.0
+offset_right = 436.0
+offset_bottom = 213.0
+text = "$0.00"
+label_settings = ExtResource("24_bjhe5")
+
+[node name="Tips" type="Label" parent="PausePanel/ResultsPanel/Totals"]
+offset_left = 355.0
+offset_top = 229.0
+offset_right = 404.0
+offset_bottom = 265.0
+text = "$0.00"
+label_settings = ExtResource("24_bjhe5")
+
+[node name="Bonus" type="Label" parent="PausePanel/ResultsPanel/Totals"]
+offset_left = 355.0
+offset_top = 281.0
+offset_right = 427.0
+offset_bottom = 317.0
+text = "$0.00"
+label_settings = ExtResource("24_bjhe5")
+
+[node name="GrandTotal" type="Label" parent="PausePanel/ResultsPanel"]
+offset_left = -108.0
+offset_top = 100.0
+offset_right = 137.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 48
+text = "0.00"
+label_settings = ExtResource("25_wkxnd")
+horizontal_alignment = 2
+
+[node name="DollarSign" type="Label" parent="PausePanel/ResultsPanel"]
+offset_left = -139.0
+offset_top = 100.0
+offset_right = -99.0
+offset_bottom = 152.0
+text = "$"
+label_settings = ExtResource("25_wkxnd")
+
+[node name="Label" type="Label" parent="PausePanel/ResultsPanel"]
+offset_left = -76.0
+offset_top = -160.0
+offset_right = 61.0
+offset_bottom = -108.0
+text = "Results"
+label_settings = ExtResource("25_wkxnd")
 
 [node name="MusicManager" type="Node2D" parent="."]
 process_mode = 3
@@ -602,7 +731,27 @@ autoplay = true
 stream = ExtResource("26_gpnn3")
 autoplay = true
 
+[node name="IngredientSuccessSFX" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("27_c1h31")
+volume_db = -10.0
+
+[node name="IngredientFailureSFX" type="AudioStreamPlayer2D" parent="MusicManager"]
+stream = ExtResource("28_1sm48")
+
+[node name="MoneySpawnBar" type="Area2D" parent="."]
+script = ExtResource("29_v8bku")
+money_label = ExtResource("30_3cffc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoneySpawnBar"]
+position = Vector2(1, 90)
+shape = SubResource("SegmentShape2D_kqc14")
+
+[connection signal="game_over" from="." to="PausePanel" method="_on_game_manager_game_over"]
+[connection signal="game_over" from="." to="PausePanel/ResultsPanel" method="_on_game_manager_game_over"]
 [connection signal="game_paused" from="." to="MusicManager" method="_on_game_manager_game_paused"]
+[connection signal="money_earned" from="." to="MusicManager" method="_on_game_manager_money_earned"]
+[connection signal="money_earned" from="." to="MoneySpawnBar" method="_on_game_manager_money_earned"]
+[connection signal="damage_taken" from="HealthBar" to="MusicManager" method="_on_health_bar_damage_taken"]
 [connection signal="health_depleted" from="HealthBar" to="." method="_on_health_bar_health_depleted"]
 [connection signal="health_depleted" from="HealthBar" to="DrinkOrderTimerBar" method="_on_health_bar_health_depleted"]
 [connection signal="health_depleted" from="HealthBar" to="MusicManager" method="_on_health_bar_health_depleted"]
@@ -620,3 +769,5 @@ autoplay = true
 [connection signal="pressed" from="PausePanel/ExitWarningPanel/NoButton" to="PausePanel" method="_on_no_button_pressed"]
 [connection signal="pressed" from="PausePanel/ExitWarningPanel/YesButton" to="PausePanel" method="_on_yes_button_pressed"]
 [connection signal="pressed" from="PausePanel/HelpPanel/HelpBackButton" to="PausePanel" method="_on_help_back_button_pressed"]
+[connection signal="pressed" from="PausePanel/HelpPanel/StartButton" to="PausePanel" method="_on_start_button_pressed"]
+[connection signal="pressed" from="PausePanel/HelpPanel/StartButton" to="PausePanel/HelpPanel/StartButton" method="_on_pressed"]

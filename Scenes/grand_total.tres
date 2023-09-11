@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bgktmlj3i4vlu"]
+
+[ext_resource type="FontFile" uid="uid://fmdip0jsm4s2" path="res://Assets/DungeonFont.ttf" id="1_ce835"]
+
+[resource]
+font = ExtResource("1_ce835")
+font_size = 48
+font_color = Color(0.709804, 0.792157, 0.603922, 1)

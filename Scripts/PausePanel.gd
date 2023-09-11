@@ -4,6 +4,7 @@ class_name PausePanel extends Sprite2D
 @onready var credits_panel = $CreditsPanel
 @onready var exit_warning_panel = $ExitWarningPanel
 @onready var help_panel = $HelpPanel
+@onready var results_panel = $ResultsPanel
 
 signal game_unpaused()
 
@@ -16,6 +17,7 @@ func hide_panels():
 	credits_panel.hide()
 	exit_warning_panel.hide()
 	help_panel.hide()
+	results_panel.hide()
 
 func resume():
 	game_unpaused.emit()
@@ -24,13 +26,8 @@ func resume():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	main_panel.show()
-	credits_panel.hide()
-	exit_warning_panel.hide()
-
-func _input(event):
-	if event.is_action_pressed("pause"):
-		resume()
+	hide_panels()
+	help_panel.show()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -56,10 +53,18 @@ func _on_credits_back_button_pressed():
 func _on_yes_button_pressed():
 	get_tree().quit()
 
-
 func _on_help_button_pressed():
 	hide_panels()
 	help_panel.show()
 
 func _on_help_back_button_pressed():
 	return_to_main_panel()
+
+func _on_start_button_pressed():
+	hide_panels()
+	main_panel.show()
+	resume()
+
+func _on_game_manager_game_over(drinks_total: float, tips_total: float, bonus_total: float):
+	hide_panels()
+	results_panel.show()

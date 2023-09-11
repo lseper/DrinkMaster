@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5triewgd2bpp"]
+
+[ext_resource type="Script" path="res://Scripts/MoneyEarned.gd" id="1_tjig0"]
+[ext_resource type="PackedScene" uid="uid://cqisjab25xo2c" path="res://Scenes/SFXLabel.tscn" id="2_y1tga"]
+
+[node name="MoneyEarned" type="Node2D"]
+script = ExtResource("1_tjig0")
+staggered_label = ExtResource("2_y1tga")
+staggered_text = "+ $0.45"
+
+[node name="DrinkCostLabel" parent="." instance=ExtResource("2_y1tga")]
+
+[node name="TipDelay" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="TipDelay" to="." method="_on_tip_delay_timeout"]

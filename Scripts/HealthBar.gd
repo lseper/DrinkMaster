@@ -17,6 +17,8 @@ var vulnerable := true
 
 signal health_depleted
 
+signal damage_taken
+
 func _on_heart_depleted():
 	hearts.pop_back()
 	
@@ -30,6 +32,7 @@ func set_heart_visibility(full: bool):
 func damage():
 	if not vulnerable:
 		return
+	damage_taken.emit()
 	blink_timer.start()
 	health -= 1
 	if hearts.size() > 0:
