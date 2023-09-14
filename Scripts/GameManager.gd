@@ -64,6 +64,11 @@ func _on_mix_attempted(successful: bool):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	SilentWolf.configure({
+		"api_key": "jaUzQR0o2e4Mm7sP9TS3L1GtCjJc5l5z4q9HTj1D",
+		"game_id": "DrinkMaster",
+		"log_level": 1
+	})
 	background.play("default")
 	coin_counter_label.text = "$" + str(round(earnings * 100) / 100.0)
 	pause_panel.hide()
@@ -89,7 +94,9 @@ func _process(delta):
 		restart_drink_timer_with_increased_difficulty()
 
 func get_bonus():
-	return get_difficulty_factor() * END_OF_GAME_BONUS_SCALER
+	var difficulty_bonus = get_difficulty_factor() * END_OF_GAME_BONUS_SCALER
+	print(difficulty_bonus)
+	return difficulty_bonus
 
 func pause_game(end_game: bool):
 	if end_game:

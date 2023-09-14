@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://dpsqnfr0bm4yn"]
+[gd_scene load_steps=113 format=3 uid="uid://dpsqnfr0bm4yn"]
 
 [ext_resource type="Texture2D" uid="uid://crkxgvvetq8d5" path="res://Assets/bar-Sheet.png" id="1_6fqh6"]
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_v22jk"]
@@ -28,7 +28,6 @@
 [ext_resource type="Script" path="res://Scripts/SelfRemovingButton.gd" id="23_jgva4"]
 [ext_resource type="Texture2D" uid="uid://ctcg2gchnl23f" path="res://Assets/results panel.png" id="23_q2nsi"]
 [ext_resource type="LabelSettings" uid="uid://b1ntvakjb4hvc" path="res://Scenes/new_label_settings.tres" id="24_bjhe5"]
-[ext_resource type="StyleBox" uid="uid://dcxm0opos4yi8" path="res://name_entry.tres" id="24_v1fw5"]
 [ext_resource type="AudioStream" uid="uid://k4h72s5j6t5l" path="res://Assets/withvigor.wav" id="25_8nub5"]
 [ext_resource type="LabelSettings" uid="uid://bgktmlj3i4vlu" path="res://Scenes/grand_total.tres" id="25_wkxnd"]
 [ext_resource type="AudioStream" uid="uid://dsbmbbtwiahmn" path="res://Assets/death.wav" id="26_gpnn3"]
@@ -645,10 +644,9 @@ label_settings = SubResource("LabelSettings_5gtom")
 [node name="StartButton" type="TextureButton" parent="PausePanel/HelpPanel"]
 visible = false
 offset_left = -68.0
-offset_top = 93.0
+offset_top = 83.0
 offset_right = 71.0
-offset_bottom = 158.0
-disabled = true
+offset_bottom = 148.0
 texture_normal = SubResource("AtlasTexture_48lya")
 texture_pressed = SubResource("AtlasTexture_k6gsf")
 texture_hover = SubResource("AtlasTexture_i44hf")
@@ -657,22 +655,15 @@ script = ExtResource("23_jgva4")
 [node name="LineEdit" type="LineEdit" parent="PausePanel/HelpPanel"]
 offset_left = -61.0
 offset_top = 34.0
-offset_right = 148.0
+offset_right = 115.0
 offset_bottom = 81.0
 theme = SubResource("Theme_josby")
 theme_override_colors/font_color = Color(0.709804, 0.792157, 0.603922, 1)
-theme_override_colors/font_selected_color = Color(0.709804, 0.792157, 0.603922, 1)
-theme_override_colors/font_uneditable_color = Color(0.709804, 0.792157, 0.603922, 1)
-theme_override_colors/font_placeholder_color = Color(0.709804, 0.792157, 0.603922, 1)
-theme_override_colors/font_outline_color = Color(0.709804, 0.792157, 0.603922, 1)
 theme_override_colors/caret_color = Color(0.709804, 0.792157, 0.603922, 1)
 theme_override_colors/selection_color = Color(0.054902, 0.176471, 0.172549, 1)
-theme_override_colors/clear_button_color = Color(0.709804, 0.792157, 0.603922, 1)
-theme_override_colors/clear_button_color_pressed = Color(0.709804, 0.792157, 0.603922, 1)
 theme_override_fonts/font = ExtResource("4_dgnuk")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("24_v1fw5")
-theme_override_styles/focus = ExtResource("24_v1fw5")
+text = "Hello"
 caret_blink = true
 
 [node name="NameLabel" type="Label" parent="PausePanel/HelpPanel"]
@@ -845,12 +836,9 @@ shape = SubResource("SegmentShape2D_kqc14")
 [connection signal="pressed" from="PausePanel/MainPanel/HelpButton" to="PausePanel" method="_on_help_button_pressed"]
 [connection signal="pressed" from="PausePanel/ExitWarningPanel/NoButton" to="PausePanel" method="_on_no_button_pressed"]
 [connection signal="pressed" from="PausePanel/ExitWarningPanel/YesButton" to="PausePanel" method="_on_yes_button_pressed"]
-[connection signal="set_name" from="PausePanel/HelpPanel" to="PausePanel/ResultsPanel" method="_on_help_panel_set_name"]
 [connection signal="pressed" from="PausePanel/HelpPanel/HelpBackButton" to="PausePanel" method="_on_help_back_button_pressed"]
 [connection signal="pressed" from="PausePanel/HelpPanel/StartButton" to="PausePanel" method="_on_start_button_pressed"]
 [connection signal="pressed" from="PausePanel/HelpPanel/StartButton" to="PausePanel/HelpPanel/StartButton" method="_on_pressed"]
-[connection signal="text_changed" from="PausePanel/HelpPanel/LineEdit" to="PausePanel/HelpPanel" method="_on_line_edit_text_changed"]
-[connection signal="text_submitted" from="PausePanel/HelpPanel/LineEdit" to="PausePanel/HelpPanel" method="_on_line_edit_text_submitted"]
 [connection signal="resume" from="PausePanel/ResultsPanel" to="PausePanel" method="_on_results_panel_resume"]
 [connection signal="pressed" from="PausePanel/ResultsPanel/Replay" to="PausePanel/ResultsPanel" method="_on_replay_pressed"]
 [connection signal="pressed" from="PausePanel/ResultsPanel/Exit" to="PausePanel/ResultsPanel" method="_on_exit_pressed"]

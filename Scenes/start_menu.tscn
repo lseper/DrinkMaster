@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://tcxerrhp3v16"]
+[gd_scene load_steps=30 format=3 uid="uid://tcxerrhp3v16"]
 
 [ext_resource type="Texture2D" uid="uid://6ggce2bax56s" path="res://Assets/start-menu-bg.png" id="1_4ll5n"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_44klu"]
@@ -9,7 +9,9 @@
 [ext_resource type="Script" path="res://Scripts/LeaderboardButton.gd" id="5_7y60s"]
 [ext_resource type="Texture2D" uid="uid://bs1ubd1gj8boj" path="res://Assets/leaderboard-panel.png" id="8_qv2sa"]
 [ext_resource type="Script" path="res://Scripts/LeaderboardPanel.gd" id="9_qol2n"]
+[ext_resource type="LabelSettings" uid="uid://b1ntvakjb4hvc" path="res://Scenes/new_label_settings.tres" id="10_lh5ss"]
 [ext_resource type="AudioStream" uid="uid://u1uqnwj3jh01" path="res://Assets/tavern.wav" id="10_wnl8n"]
+[ext_resource type="PackedScene" uid="uid://blhfyib3aj567" path="res://Scenes/leaderboard_entry.tscn" id="11_bepsv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kptlx"]
 atlas = ExtResource("2_dt2m6")
@@ -66,12 +68,30 @@ region = Rect2(151, 230, 139, 67)
 atlas = ExtResource("2_dt2m6")
 region = Rect2(151, 232, 139, 65)
 
-[node name="StartMenu" type="Sprite2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vr857"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(368, 54, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvv2p"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(368, 16, 30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_287lh"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(368, 18, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akag1"]
+atlas = ExtResource("2_dt2m6")
+region = Rect2(252, 87, 11, 63)
+
+[node name="Start" type="Node2D"]
+
+[node name="StartMenu" type="Sprite2D" parent="."]
 position = Vector2(320, 320)
 texture = ExtResource("1_4ll5n")
 script = ExtResource("2_44klu")
 
-[node name="ExitButton" type="TextureButton" parent="."]
+[node name="ExitButton" type="TextureButton" parent="StartMenu"]
 offset_left = 105.0
 offset_top = -147.0
 offset_right = 244.0
@@ -81,7 +101,7 @@ texture_pressed = SubResource("AtlasTexture_3cdd4")
 texture_hover = SubResource("AtlasTexture_kx7ed")
 script = ExtResource("3_8h6i2")
 
-[node name="StartButton" type="TextureButton" parent="."]
+[node name="StartButton" type="TextureButton" parent="StartMenu"]
 offset_left = 104.0
 offset_top = -227.0
 offset_right = 243.0
@@ -91,7 +111,7 @@ texture_pressed = SubResource("AtlasTexture_ddqag")
 texture_hover = SubResource("AtlasTexture_7igkh")
 script = ExtResource("4_d81rc")
 
-[node name="LeaderboardButton" type="TextureButton" parent="." node_paths=PackedStringArray("leaderboard_panel")]
+[node name="LeaderboardButton" type="TextureButton" parent="StartMenu" node_paths=PackedStringArray("leaderboard_panel")]
 offset_left = 54.0
 offset_top = -307.0
 offset_right = 302.0
@@ -102,7 +122,7 @@ texture_hover = SubResource("AtlasTexture_4htlg")
 script = ExtResource("5_7y60s")
 leaderboard_panel = NodePath("../LeaderboardPanel")
 
-[node name="Drink" type="Label" parent="."]
+[node name="Drink" type="Label" parent="StartMenu"]
 offset_left = -319.0
 offset_top = -306.0
 offset_right = -251.0
@@ -115,7 +135,7 @@ K"
 label_settings = SubResource("LabelSettings_wwxww")
 horizontal_alignment = 1
 
-[node name="Master" type="Label" parent="."]
+[node name="Master" type="Label" parent="StartMenu"]
 offset_left = -252.0
 offset_top = -305.0
 offset_right = -179.0
@@ -129,26 +149,70 @@ R"
 label_settings = SubResource("LabelSettings_wwxww")
 horizontal_alignment = 1
 
-[node name="LeaderboardPanel" type="Sprite2D" parent="."]
+[node name="LeaderboardPanel" type="Sprite2D" parent="StartMenu"]
 process_mode = 4
 visible = false
 texture = ExtResource("8_qv2sa")
 script = ExtResource("9_qol2n")
+leaderboard_entry = ExtResource("11_bepsv")
 
-[node name="BackButton" type="TextureButton" parent="LeaderboardPanel"]
-offset_left = -73.0
+[node name="BackButton" type="TextureButton" parent="StartMenu/LeaderboardPanel"]
+offset_left = -148.0
 offset_top = -234.0
-offset_right = 66.0
+offset_right = -9.0
 offset_bottom = -170.0
 texture_normal = SubResource("AtlasTexture_ps3p7")
 texture_pressed = SubResource("AtlasTexture_ywhqw")
 texture_hover = SubResource("AtlasTexture_epb48")
 
+[node name="Replay" type="TextureButton" parent="StartMenu/LeaderboardPanel"]
+offset_left = 102.0
+offset_top = -216.0
+offset_right = 132.0
+offset_bottom = -186.0
+texture_normal = SubResource("AtlasTexture_vr857")
+texture_pressed = SubResource("AtlasTexture_fvv2p")
+texture_hover = SubResource("AtlasTexture_287lh")
+
+[node name="Label" type="Label" parent="StartMenu/LeaderboardPanel"]
+offset_left = -139.0
+offset_top = -152.0
+offset_right = 138.0
+offset_bottom = -116.0
+text = "Player                Score"
+label_settings = ExtResource("10_lh5ss")
+
+[node name="LeaderboardScroll" type="ScrollContainer" parent="StartMenu/LeaderboardPanel"]
+offset_left = -141.0
+offset_top = -112.0
+offset_right = 148.0
+offset_bottom = 226.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="LeaderboardVbox" type="VBoxContainer" parent="StartMenu/LeaderboardPanel/LeaderboardScroll"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="StartMenu/LeaderboardPanel"]
+position = Vector2(6, -134.438)
+scale = Vector2(0.386365, 0.652778)
+texture = SubResource("AtlasTexture_akag1")
+
+[node name="Sprite2D2" type="Sprite2D" parent="StartMenu/LeaderboardPanel"]
+position = Vector2(-0.0380292, -113)
+rotation = 1.5708
+scale = Vector2(0.344422, 4.89798)
+texture = SubResource("AtlasTexture_akag1")
+
 [node name="IntroMusic" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(320, 320)
 stream = ExtResource("10_wnl8n")
 autoplay = true
 
-[connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_pressed"]
-[connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]
-[connection signal="pressed" from="LeaderboardButton" to="LeaderboardButton" method="_on_pressed"]
-[connection signal="pressed" from="LeaderboardPanel/BackButton" to="LeaderboardPanel" method="_on_back_button_pressed"]
+[connection signal="pressed" from="StartMenu/ExitButton" to="StartMenu/ExitButton" method="_on_pressed"]
+[connection signal="pressed" from="StartMenu/StartButton" to="StartMenu/StartButton" method="_on_pressed"]
+[connection signal="pressed" from="StartMenu/LeaderboardButton" to="StartMenu/LeaderboardButton" method="_on_pressed"]
+[connection signal="pressed" from="StartMenu/LeaderboardPanel/BackButton" to="StartMenu/LeaderboardPanel" method="_on_back_button_pressed"]
+[connection signal="pressed" from="StartMenu/LeaderboardPanel/Replay" to="StartMenu/LeaderboardPanel" method="_on_replay_pressed"]

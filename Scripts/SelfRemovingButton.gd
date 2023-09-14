@@ -12,4 +12,6 @@ func _process(delta):
 
 func _on_pressed():
 	get_parent().get_child(0).visible = true
+	get_parent().get_child(3).visible = false
+	get_parent().get_child(4).visible = false
 	visible = false

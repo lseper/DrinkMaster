@@ -65,6 +65,10 @@ func _on_start_button_pressed():
 	main_panel.show()
 	resume()
 
-func _on_game_manager_game_over(drinks_total: float, tips_total: float, bonus_total: float):
+func _on_game_manager_game_over(_drinks_total: float, _tips_total: float, _bonus_total: float):
 	hide_panels()
 	results_panel.show()
+
+func _on_results_panel_resume():
+	return_to_main_panel()
+	resume()

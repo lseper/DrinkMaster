@@ -16,7 +16,11 @@ func enable():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	SilentWolf.configure({
+		"api_key": "jaUzQR0o2e4Mm7sP9TS3L1GtCjJc5l5z4q9HTj1D",
+		"game_id": "DrinkMaster",
+		"log_level": 1
+	})
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
