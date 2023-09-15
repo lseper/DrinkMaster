@@ -538,10 +538,9 @@ texture = ExtResource("18_0bxap")
 script = ExtResource("19_in011")
 
 [node name="CreditsPanel" type="Node2D" parent="PausePanel"]
-visible = false
 
 [node name="Credits" type="Sprite2D" parent="PausePanel/CreditsPanel"]
-position = Vector2(0, -27)
+position = Vector2(0, -3)
 texture = ExtResource("19_6er6h")
 
 [node name="CreditsBackButton" type="TextureButton" parent="PausePanel/CreditsPanel"]
@@ -618,6 +617,7 @@ position = Vector2(0, -82)
 texture = SubResource("AtlasTexture_uhb5c")
 
 [node name="HelpPanel" type="Node2D" parent="PausePanel"]
+visible = false
 script = ExtResource("22_ffvlc")
 
 [node name="HelpBackButton" type="TextureButton" parent="PausePanel/HelpPanel"]
