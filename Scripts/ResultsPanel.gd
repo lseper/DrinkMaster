@@ -39,7 +39,6 @@ func reset():
 	begin = false
 
 func _accumulate_next() -> bool:
-	print(accumulate_order_totals)
 	if accumulate_order_totals.size() > 0:
 		curr_total = accumulate_order_totals.pop_front()
 		curr_text_label = accumulate_order_text.pop_front()
@@ -49,7 +48,6 @@ func _accumulate_next() -> bool:
 		return false
 		
 func submit_score(username: String, score_to_submit: float):
-	print(username)
 	SilentWolf.Scores.save_score(username, round(score_to_submit * 100) / 100.0)
 
 # Called when the node enters the scene tree for the first time.
@@ -75,7 +73,6 @@ func _on_game_manager_game_over(drinks_total, tips_total, bonus_total):
 	accumulate_order_totals = [drinks_total, tips_total, bonus_total]
 	total_money_to_add = accumulate_order_totals.reduce(func(acc, number): return acc + number, 0.0)
 	count_speed = total_money_to_add / total_time
-	print("username: " + username)
 	submit_score(username, total_money_to_add)
 	_accumulate_next()
 
@@ -91,5 +88,4 @@ func _on_exit_pressed():
 
 
 func _on_help_panel_set_name(username_to_set):
-	print("username to set: "+ username_to_set)
 	username = username_to_set

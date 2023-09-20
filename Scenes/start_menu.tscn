@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://tcxerrhp3v16"]
+[gd_scene load_steps=31 format=3 uid="uid://tcxerrhp3v16"]
 
 [ext_resource type="Texture2D" uid="uid://6ggce2bax56s" path="res://Assets/start-menu-bg.png" id="1_4ll5n"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_44klu"]
@@ -9,9 +9,9 @@
 [ext_resource type="Script" path="res://Scripts/LeaderboardButton.gd" id="5_7y60s"]
 [ext_resource type="Texture2D" uid="uid://bs1ubd1gj8boj" path="res://Assets/leaderboard-panel.png" id="8_qv2sa"]
 [ext_resource type="Script" path="res://Scripts/LeaderboardPanel.gd" id="9_qol2n"]
-[ext_resource type="LabelSettings" uid="uid://b1ntvakjb4hvc" path="res://Scenes/new_label_settings.tres" id="10_lh5ss"]
+[ext_resource type="LabelSettings" uid="uid://chnkfurc54d2c" path="res://Scenes/new_label_settings.tres" id="10_lh5ss"]
 [ext_resource type="AudioStream" uid="uid://u1uqnwj3jh01" path="res://Assets/tavern.wav" id="10_wnl8n"]
-[ext_resource type="PackedScene" uid="uid://blhfyib3aj567" path="res://Scenes/leaderboard_entry.tscn" id="11_bepsv"]
+[ext_resource type="PackedScene" uid="uid://bi5eo1q3l2fs0" path="res://Scenes/leaderboard_entry.tscn" id="11_bepsv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kptlx"]
 atlas = ExtResource("2_dt2m6")
@@ -79,6 +79,9 @@ region = Rect2(368, 16, 30, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_287lh"]
 atlas = ExtResource("2_dt2m6")
 region = Rect2(368, 18, 30, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bn2lk"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_akag1"]
 atlas = ExtResource("2_dt2m6")
@@ -181,6 +184,7 @@ offset_right = 138.0
 offset_bottom = -116.0
 text = "Player                Score"
 label_settings = ExtResource("10_lh5ss")
+horizontal_alignment = 1
 
 [node name="LeaderboardScroll" type="ScrollContainer" parent="StartMenu/LeaderboardPanel"]
 offset_left = -141.0
@@ -189,11 +193,10 @@ offset_right = 148.0
 offset_bottom = 226.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_bn2lk")
 
 [node name="LeaderboardVbox" type="VBoxContainer" parent="StartMenu/LeaderboardPanel/LeaderboardScroll"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="StartMenu/LeaderboardPanel"]
 position = Vector2(6, -134.438)

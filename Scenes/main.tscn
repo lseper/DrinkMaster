@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://dpsqnfr0bm4yn"]
+[gd_scene load_steps=118 format=3 uid="uid://dpsqnfr0bm4yn"]
 
 [ext_resource type="Texture2D" uid="uid://crkxgvvetq8d5" path="res://Assets/bar-Sheet.png" id="1_6fqh6"]
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_v22jk"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://gnorh8bcj5n0" path="res://Scenes/Ingredients/Ice.tscn" id="6_t5srh"]
 [ext_resource type="PackedScene" uid="uid://dxasjr2tbbp8" path="res://Scenes/VFX/successful_icon.tscn" id="7_yfk28"]
 [ext_resource type="PackedScene" uid="uid://bpfy7cvq0xh6t" path="res://Scenes/VFX/unsuccessful_icon.tscn" id="8_0l8er"]
+[ext_resource type="Script" path="res://Scripts/ComboLabel.gd" id="11_b8iow"]
+[ext_resource type="Script" path="res://Scripts/RecipeStartIndicator.gd" id="11_lpag7"]
 [ext_resource type="Script" path="res://Scripts/HealthBar.gd" id="13_xyft0"]
 [ext_resource type="PackedScene" uid="uid://c2hyaifxg2voh" path="res://Scenes/UI/heart.tscn" id="14_k2pxb"]
 [ext_resource type="Script" path="res://Scripts/BlinkTimer.gd" id="15_lrbpk"]
@@ -27,15 +29,15 @@
 [ext_resource type="Script" path="res://Scripts/ResultsPanel.gd" id="23_eiv2q"]
 [ext_resource type="Script" path="res://Scripts/SelfRemovingButton.gd" id="23_jgva4"]
 [ext_resource type="Texture2D" uid="uid://ctcg2gchnl23f" path="res://Assets/results panel.png" id="23_q2nsi"]
-[ext_resource type="LabelSettings" uid="uid://b1ntvakjb4hvc" path="res://Scenes/new_label_settings.tres" id="24_bjhe5"]
-[ext_resource type="StyleBox" uid="uid://dcxm0opos4yi8" path="res://name_entry.tres" id="24_v1fw5"]
+[ext_resource type="LabelSettings" uid="uid://chnkfurc54d2c" path="res://Scenes/new_label_settings.tres" id="24_bjhe5"]
+[ext_resource type="StyleBox" path="res://name_entry.tres" id="24_v1fw5"]
 [ext_resource type="AudioStream" uid="uid://k4h72s5j6t5l" path="res://Assets/withvigor.wav" id="25_8nub5"]
-[ext_resource type="LabelSettings" uid="uid://bgktmlj3i4vlu" path="res://Scenes/grand_total.tres" id="25_wkxnd"]
+[ext_resource type="LabelSettings" path="res://Scenes/grand_total.tres" id="25_wkxnd"]
 [ext_resource type="AudioStream" uid="uid://dsbmbbtwiahmn" path="res://Assets/death.wav" id="26_gpnn3"]
-[ext_resource type="AudioStream" uid="uid://jgv1pdye4p2l" path="res://Assets/IngredientSuccess.wav" id="27_c1h31"]
-[ext_resource type="AudioStream" uid="uid://bfx7jjjgcm3eg" path="res://Assets/IngredientFailure.wav" id="28_1sm48"]
 [ext_resource type="Script" path="res://Scripts/MoneySpawnBar.gd" id="29_v8bku"]
-[ext_resource type="PackedScene" uid="uid://b5triewgd2bpp" path="res://Scenes/money_earned.tscn" id="30_3cffc"]
+[ext_resource type="PackedScene" path="res://Scenes/money_earned.tscn" id="30_3cffc"]
+[ext_resource type="AudioStream" uid="uid://d0bnjx8qgbifn" path="res://Assets/success.wav" id="33_m5d60"]
+[ext_resource type="AudioStream" uid="uid://cg540d8vxtibu" path="res://Assets/failure.wav" id="34_7ye0d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqlb7"]
 atlas = ExtResource("1_6fqh6")
@@ -219,6 +221,15 @@ animations = [{
 "name": &"default",
 "speed": 10.0
 }]
+
+[sub_resource type="LabelSettings" id="LabelSettings_07v7w"]
+font = ExtResource("4_dgnuk")
+font_size = 24
+font_color = Color(0.709804, 0.792157, 0.603922, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0alis"]
+atlas = ExtResource("21_1ky41")
+region = Rect2(176, 90.4484, 80, 6.55159)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u1403"]
 atlas = ExtResource("3_q4750")
@@ -485,6 +496,34 @@ position = Vector2(320, 320)
 sprite_frames = SubResource("SpriteFrames_t1cim")
 frame_progress = 0.625801
 
+[node name="ComboLabelText" type="Label" parent="."]
+offset_left = 30.0
+offset_top = 93.0
+offset_right = 85.0
+offset_bottom = 121.0
+text = "Combo"
+label_settings = ExtResource("24_bjhe5")
+
+[node name="ComboLabel" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 29.0
+offset_right = 108.0
+offset_bottom = 97.0
+label_settings = SubResource("LabelSettings_07v7w")
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("11_b8iow")
+
+[node name="RecipeStartIndicator" type="Sprite2D" parent="."]
+position = Vector2(430, 105)
+scale = Vector2(0.525, 1)
+texture = SubResource("AtlasTexture_0alis")
+script = ExtResource("11_lpag7")
+
+[node name="BlinkTimer" type="Timer" parent="RecipeStartIndicator"]
+wait_time = 0.35
+autostart = true
+
 [node name="UI" type="Sprite2D" parent="."]
 position = Vector2(322, 336)
 texture = ExtResource("2_p4i3g")
@@ -533,11 +572,13 @@ wait_time = 3.0
 
 [node name="PausePanel" type="Sprite2D" parent="."]
 process_mode = 2
+visible = false
 position = Vector2(322, 264)
 texture = ExtResource("18_0bxap")
 script = ExtResource("19_in011")
 
 [node name="CreditsPanel" type="Node2D" parent="PausePanel"]
+visible = false
 
 [node name="Credits" type="Sprite2D" parent="PausePanel/CreditsPanel"]
 position = Vector2(0, -3)
@@ -617,7 +658,6 @@ position = Vector2(0, -82)
 texture = SubResource("AtlasTexture_uhb5c")
 
 [node name="HelpPanel" type="Node2D" parent="PausePanel"]
-visible = false
 script = ExtResource("22_ffvlc")
 
 [node name="HelpBackButton" type="TextureButton" parent="PausePanel/HelpPanel"]
@@ -809,11 +849,11 @@ stream = ExtResource("26_gpnn3")
 autoplay = true
 
 [node name="IngredientSuccessSFX" type="AudioStreamPlayer" parent="MusicManager"]
-stream = ExtResource("27_c1h31")
-volume_db = -10.0
+stream = ExtResource("33_m5d60")
+volume_db = -20.0
 
 [node name="IngredientFailureSFX" type="AudioStreamPlayer2D" parent="MusicManager"]
-stream = ExtResource("28_1sm48")
+stream = ExtResource("34_7ye0d")
 
 [node name="MoneySpawnBar" type="Area2D" parent="."]
 script = ExtResource("29_v8bku")
@@ -828,6 +868,7 @@ shape = SubResource("SegmentShape2D_kqc14")
 [connection signal="game_paused" from="." to="MusicManager" method="_on_game_manager_game_paused"]
 [connection signal="money_earned" from="." to="MusicManager" method="_on_game_manager_money_earned"]
 [connection signal="money_earned" from="." to="MoneySpawnBar" method="_on_game_manager_money_earned"]
+[connection signal="timeout" from="RecipeStartIndicator/BlinkTimer" to="RecipeStartIndicator" method="_on_blink_timer_timeout"]
 [connection signal="damage_taken" from="HealthBar" to="MusicManager" method="_on_health_bar_damage_taken"]
 [connection signal="health_depleted" from="HealthBar" to="." method="_on_health_bar_health_depleted"]
 [connection signal="health_depleted" from="HealthBar" to="DrinkOrderTimerBar" method="_on_health_bar_health_depleted"]

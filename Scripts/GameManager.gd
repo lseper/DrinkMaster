@@ -9,6 +9,8 @@ class_name GameManager extends Node2D
 
 @onready var pause_panel = $PausePanel
 
+@onready var combo_label = $ComboLabel
+
 @export var rum_ingredient : PackedScene
 @export var wine_ingredient : PackedScene
 @export var soda_ingredient : PackedScene
@@ -19,6 +21,8 @@ class_name GameManager extends Node2D
 @export var unsuccess_icon : PackedScene
 
 @onready var ingredients = [rum_ingredient, wine_ingredient, soda_ingredient, vodka_ingredient, ice_ingredient]
+
+@onready var initial_drink_order_wait_time = actual_drink_order_timer.wait_time
 
 var recipe_start_position = Vector2(430, 55)
 const INGREDIENT_WIDTH = 70
@@ -34,9 +38,11 @@ var tips_total := 0.0
 var earnings : float = 0.0
 
 # each second that passes, the timer is decreased (upon successful mix) by 0.02 more
-const DIFFICULTY_INCREASE_PER_SECOND := 0.02
+const SUCCESSFUL_MIX_DIFFICULTY_INCREASE := 100.0
 const DRINK_COST_PER_INGREDIENT = 2.25
 const END_OF_GAME_BONUS_SCALER = 50
+
+var combo : int = 0
 
 var start_time : int
 
@@ -46,21 +52,32 @@ signal game_over(drinks_total: float, tips_total : float, bonus_total : float)
 
 signal money_earned(base: float, tip: float)
 
+func _get_time_elapsed():
+	return ((Time.get_ticks_msec() - start_time) / 1000.0)
+	
+func _set_combo(value: int):
+	combo = value
+	combo_label.set_blink(value)
+
 func get_difficulty_factor():
-	var difficulty_factor = ((Time.get_ticks_msec() - start_time) / 1000.0) * DIFFICULTY_INCREASE_PER_SECOND
+	var time_elapsed = _get_time_elapsed()
+	# exponential decay
+	var difficulty_factor = combo * (_get_time_elapsed() / SUCCESSFUL_MIX_DIFFICULTY_INCREASE)
 	return difficulty_factor
 
 func restart_drink_timer_with_increased_difficulty():
 	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time - get_difficulty_factor())
 	
 func restart_drink_timer_with_decreased_difficulty():
-	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time + (2.0 * get_difficulty_factor()))
+	drink_order_timer.set_new_drink_order_time(initial_drink_order_wait_time - clamp(pow(_get_time_elapsed(), 0.5), 0.0, initial_drink_order_wait_time * 0.80))
 
 func _on_mix_attempted(successful: bool):
 	if successful:
 		recipe.pop_front()
 	else:
 		health_bar.damage()
+		_set_combo(0)
+		restart_drink_timer_with_decreased_difficulty()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -78,7 +95,8 @@ func _ready():
 
 func earn_money():
 	var tip_ratio = tip_percentage * (actual_drink_order_timer.time_left / actual_drink_order_timer.wait_time)
-	var base_payout = (recipe_complexity * DRINK_COST_PER_INGREDIENT)
+	var combo_bonus = 1.0 + (combo / 10.0)
+	var base_payout = (recipe_complexity * DRINK_COST_PER_INGREDIENT) * (1.0 + combo_bonus)
 	drinks_total += base_payout
 	var tip = (1.0 + tip_ratio) * base_payout
 	tips_total += tip
@@ -89,6 +107,7 @@ func earn_money():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if recipe.size() <= 0:
+		_set_combo(combo + 1)
 		earn_money()
 		order_new_drink()
 		restart_drink_timer_with_increased_difficulty()
@@ -130,6 +149,7 @@ func clear_drink():
 		ingredient.queue_free()
 
 func _on_drink_order_timer_timeout():
+	_set_combo(0)
 	clear_drink()
 	order_new_drink()
 	restart_drink_timer_with_decreased_difficulty()
