@@ -43,8 +43,8 @@ func move_character(delta):
 
 var s := 1.0		
 func fade_out(delta):
-	s = clamp(s - delta * character_movement_speed, -.5, 1.0)
-	var delay = clamp(0.5 + s, 0.0, 1.0)
+	s = clamp(s - delta * character_movement_speed, -1.0, 1.0)
+	var delay = clamp(1.0 + s, 0.0, 1.0)
 	modulate.a = delay
 	character.modulate.a = clamp(s, 0.0, 1.0)
 	if delay <= 0.0:

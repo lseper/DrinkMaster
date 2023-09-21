@@ -34,17 +34,19 @@ var recipe_complexity : int
 
 var drinks_total := 0.0
 var tips_total := 0.0
+var bonus_total := 0.0
 
 var earnings : float = 0.0
 
 # each second that passes, the timer is decreased (upon successful mix) by 0.02 more
 const SUCCESSFUL_MIX_DIFFICULTY_INCREASE := 100.0
 const DRINK_COST_PER_INGREDIENT = 2.25
-const END_OF_GAME_BONUS_SCALER = 50
+const END_OF_GAME_BONUS_SCALER = (12.0 / 60)
+const MINIMUM_DRINK_TIMER := 2.0
 
 var combo : int = 0
 
-var start_time : int
+var elapsed_time : float = 0.0
 
 signal game_paused()
 
@@ -53,7 +55,10 @@ signal game_over(drinks_total: float, tips_total : float, bonus_total : float)
 signal money_earned(base: float, tip: float)
 
 func _get_time_elapsed():
-	return ((Time.get_ticks_msec() - start_time) / 1000.0)
+	return elapsed_time
+	
+func _get_time_elapsed_for_bonus():
+	return _get_time_elapsed()
 	
 func _set_combo(value: int):
 	combo = value
@@ -66,7 +71,7 @@ func get_difficulty_factor():
 	return difficulty_factor
 
 func restart_drink_timer_with_increased_difficulty():
-	drink_order_timer.set_new_drink_order_time(actual_drink_order_timer.wait_time - get_difficulty_factor())
+	drink_order_timer.set_new_drink_order_time(clamp(actual_drink_order_timer.wait_time - get_difficulty_factor(), MINIMUM_DRINK_TIMER, initial_drink_order_wait_time))
 	
 func restart_drink_timer_with_decreased_difficulty():
 	drink_order_timer.set_new_drink_order_time(initial_drink_order_wait_time - clamp(pow(_get_time_elapsed(), 0.5), 0.0, initial_drink_order_wait_time * 0.80))
@@ -90,7 +95,6 @@ func _ready():
 	coin_counter_label.text = "$" + str(round(earnings * 100) / 100.0)
 	pause_panel.hide()
 	order_new_drink()
-	start_time = Time.get_ticks_msec()
 	pause_game(false)
 
 func earn_money():
@@ -98,7 +102,7 @@ func earn_money():
 	var combo_bonus = 1.0 + (combo / 10.0)
 	var base_payout = (recipe_complexity * DRINK_COST_PER_INGREDIENT) * (1.0 + combo_bonus)
 	drinks_total += base_payout
-	var tip = (1.0 + tip_ratio) * base_payout
+	var tip = tip_ratio * base_payout
 	tips_total += tip
 	money_earned.emit(base_payout, tip)
 	earnings += base_payout + tip
@@ -106,6 +110,7 @@ func earn_money():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	elapsed_time += delta
 	if recipe.size() <= 0:
 		_set_combo(combo + 1)
 		earn_money()
@@ -113,8 +118,7 @@ func _process(delta):
 		restart_drink_timer_with_increased_difficulty()
 
 func get_bonus():
-	var difficulty_bonus = get_difficulty_factor() * END_OF_GAME_BONUS_SCALER
-	print(difficulty_bonus)
+	var difficulty_bonus = _get_time_elapsed_for_bonus() * END_OF_GAME_BONUS_SCALER
 	return difficulty_bonus
 
 func pause_game(end_game: bool):
@@ -133,6 +137,7 @@ func _input(event):
 		recipe[0].attempt_mix(event)
 
 func order_new_drink():
+	print(elapsed_time)
 	recipe = []
 	var recipe_length = randi_range(2, 5)
 	recipe_complexity = recipe_length
